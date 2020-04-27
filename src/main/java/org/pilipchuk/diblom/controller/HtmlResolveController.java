@@ -13,11 +13,18 @@ public class HtmlResolveController {
     @Autowired
     BoilerService boilerService;
 
-    @GetMapping("/")
+    @GetMapping({"/", "/settings"})
     public String index(Model model) {
         Boiler boiler = boilerService.findFirst();
         model.addAttribute("boiler", boiler);
         return "settings";
+    }
+
+    @GetMapping("/chart")
+    public String chart(Model model) {
+        Boiler boiler = boilerService.findFirst();
+        model.addAttribute("boiler", boiler);
+        return "chart";
     }
 
 }
