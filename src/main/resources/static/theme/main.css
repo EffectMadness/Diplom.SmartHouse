@@ -1,0 +1,51 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 2em 2em 2em;
+}
+
+div.boiler-settings {
+    display: table;
+    width: 100%;
+}
+
+div.boiler-property {
+    display: table-cell;
+    padding-right: 20px;
+    display: inline-block;
+    margin: 3px;
+    vertical-align: middle;
+    width: 48%;
+}
+
+div.boiler-property > div.property-value {
+    display: table-cell;
+    padding-left: 25px;
+    background-color: #2d89ef;
+    width: inherit;
+}
+
+div.boiler-property > div.property-name {
+    color: #fff;
+    background-color: #0b67cd;
+    padding: 10px;
+    display: table-cell;
+    width: 350px;
+}
+
+div.jtable-main-container {
+    margin-top: 20px;
+}
+
+div.jtable-input-label, div.jtable-input {
+    text-align: center;
+}
+
+#controller-state-label {
+    margin-left: 105px;
+}
+
+button.boiler-edit-btn {
+    width: 150px;
+}
