@@ -48,6 +48,7 @@ public class SensorController {
             Sensor sensor = sensorDao.findById(dto.getSensorId()).orElseThrow(IllegalArgumentException::new);
             mapper.map(dto, sensor);
             sensorDao.save(sensor);
+
         });
     }
 

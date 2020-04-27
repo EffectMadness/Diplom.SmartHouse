@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Основні налаштування </title>
+
+    <script src="libs/jquery.min.js" type="text/javascript"></script>
+    <script src="libs/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="libs/jtable/jquery.jtable.min.js" type="text/javascript"></script>
+    <script src="js/sensorTable.js" type="text/javascript"></script>
+    <script src="js/timeZoneTable.js" type="text/javascript"></script>
+    <script src="js/specDayTable.js" type="text/javascript"></script>
+    <script src="js/boilerSettings.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href=libs/jquery-ui/jquery-ui.min.css type="text/css"/>
+    <link rel="stylesheet" href=libs/jquery-ui/jquery-ui.theme.min.css type="text/css"/>
+    <link rel="stylesheet" href=libs/jquery-ui/jquery-ui.structure.min.css type="text/css"/>
+    <link rel="stylesheet" href="libs/jtable/themes/metro/blue/jtable.min.css" type="text/css"/>
+    <link rel="stylesheet" href="theme/main.css" type="text/css"/>
+</head>
+<body>
+<br>
+    <a href="settings">Settings</a> </br>
+    <a href="chart">Chart</a>
+</div>
+
+    <div>
+        <h2>Chart</h2>
+        <div id = "boiler-view-settings" class="boiler-settings">
+            <div class="boiler-property">
+                <div class="property-name">Контролер</div>
+                <div class="property-value" name="status" th:text="${boiler.status}"/>
+            </div>
+            <div class="boiler-property">
+                <div class="property-name">Проміжок часу</div>
+                <div class="property-value" name="deltaTime" th:text="${boiler.deltaTime}"/>
+            </div>
+            <div class="boiler-property">
+                <div class="property-name">Допустиме відхилення температури</div>
+                <div class="property-value" name="deltaTemp" th:text="${boiler.deltaTemp}"/>
+            </div>
+            <div class="boiler-property">
+                <div class="property-name">Нагрівач</div>
+                <div class="property-value" name="currentStatus" th:text="${boiler.currentStatus}"/>
+            </div>
+            <div class="boiler-property">
+                <div class="property-name">Час вкл/викл</div>
+                <div class="property-value" name="timeCurStatus" th:text="${boiler.timeCurStatus}"/>
+            </div>
+        </div>
+        <button id="boiler-edit-btn" class="ui-button ui-widget ui-corner-all">Edit</button>
+
+        <div id="boiler-edit-dlg" class="jtable-dialog-form" style="display: none" title="Boiler settings">
+            <form id="jtable-edit-form" class="jtable-dialog-form jtable-edit-form">
+                <div class="jtable-input-field-container">
+                    <div class="jtable-input-label">Контролер</div>
+                    <label id="controller-state-label" for="controller-state">ON/OFF</label>
+                    <input class="property-value" type="checkbox" name="status" id="controller-state">
+                </div>
+                <div class="jtable-input-field-container">
+                    <div class="jtable-input-label">Проміжок часу</div>
+                    <div class="jtable-input jtable-text-input"><input class="property-value" type="number" name="deltaTime"></div>
+                </div>
+                <div class="jtable-input-field-container">
+                    <div class="jtable-input-label">Допустиме відхилення температури</div>
+                    <div class="jtable-input jtable-text-input"><input class="property-value" type="number" name="deltaTemp"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <div id="SensorTableContainer"></div>
+        <div id="TimeZoneContainer"></div>
+        <div id="SpecDayContainer"></div>
+    </div>
+</body>
+</html>

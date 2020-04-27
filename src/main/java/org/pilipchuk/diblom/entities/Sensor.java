@@ -16,12 +16,9 @@ public class Sensor {
     private Integer delta;
     private String type;
     private String sensorUid;
-    private Integer dec0;
-    private Integer dec1;
-    private Integer dec2;
-    private Integer dec3;
-    private Integer dec4;
-    private Integer dec5;
-    private Integer dec6;
-    private Integer dec7;
+    private Double temperatureValue;
+
+    public Double getTemperatureValue() {
+        return temperatureValue == null ? 0 : temperatureValue;
+    }
 }

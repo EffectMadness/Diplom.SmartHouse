@@ -9,9 +9,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "work_log")
 public class WorkLog {
+
     @Id
     private Integer id;
     private String dateTime;
+
     @Enumerated(EnumType.STRING)
     private OperationType operation;
 }
