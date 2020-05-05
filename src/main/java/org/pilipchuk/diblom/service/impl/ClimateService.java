@@ -2,12 +2,12 @@ package org.pilipchuk.diblom.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.pilipchuk.diblom.dao.BoilerDao;
 import org.pilipchuk.diblom.dao.SensorDao;
 import org.pilipchuk.diblom.dao.TemperatureDao;
 import org.pilipchuk.diblom.entities.Sensor;
 import org.pilipchuk.diblom.entities.Temperature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,16 +19,24 @@ import java.util.Map;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class SensorService {
+public class ClimateService {
+
+    @Autowired
+    BoilerDao boilerDao;
 
     private final DeviceAdapter deviceAdapter;
     private final SensorDao sensorDao;
     private final TemperatureDao temperatureDao;
+    private final RelayService relayService;
 
-    @Scheduled(fixedDelay = 10000)
+    //@Scheduled(cron = "*/1 * * * *")
+    @Scheduled(fixedDelay = 60000)
     @Transactional
     public void scheduledSync() {
+        //RelayService relayService = new RelayService();
+
         syncSensors();
+        relayService.boilerOnOff();
     }
 
 

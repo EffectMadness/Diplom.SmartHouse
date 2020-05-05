@@ -20,6 +20,8 @@ public class SpecDaySetup {
     Integer dayTo;
     Integer monthTo;
     Integer yearTo;
+    //String  dateFrom;
+    //String  dateTo;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "time_zone")
     TimeZone timeZone;

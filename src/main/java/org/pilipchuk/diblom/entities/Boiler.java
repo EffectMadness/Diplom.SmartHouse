@@ -3,6 +3,7 @@ package org.pilipchuk.diblom.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Data
 @Entity
@@ -18,7 +19,7 @@ public class Boiler {
     private Integer onLine;
     private Integer onLineTemp;
     private Integer currentStatus;
-    private String timeCurStatus;
+    private Instant timeCurStatus;
     @ManyToOne
     @JoinColumn(name = "monit_sensor")
     private Sensor sensor;

@@ -6,17 +6,15 @@ import org.pilipchuk.diblom.dao.SensorDao;
 import org.pilipchuk.diblom.entities.Sensor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
 import java.util.List;
 
 
 @RestController
 @AllArgsConstructor
 public class DeviceController {
-    private final SensorService sensorService;
+    private final ClimateService sensorService;
 
     private final SensorDao sensorDao;
 
