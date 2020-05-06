@@ -24,7 +24,7 @@ import java.util.Map;
 
 @Component
 public class DeviceAdapter {
-    @Value("${w1Sensor.path}")
+    @Value("w1Sensor.path")
     String w1Path;
 
     public Map<String, Double> readDeviceData(){
