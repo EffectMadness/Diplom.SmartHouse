@@ -9,7 +9,6 @@ import org.pilipchuk.diblom.entities.Boiler;
 import org.pilipchuk.diblom.entities.Sensor;
 import org.pilipchuk.diblom.entities.WorkLog;
 import org.pilipchuk.diblom.entity.OperationType;
-import org.pilipchuk.diblom.service.BoilerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,9 +32,6 @@ public class RelayService {
     private String gpio;
 
     private int status;
-
-    @Autowired
-    private BoilerService boilerService;
 
     @Autowired
     private SpecDaySetupDao specDaySetupDao;
