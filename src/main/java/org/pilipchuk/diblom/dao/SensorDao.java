@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.List;
 
 public interface SensorDao extends CrudRepository<Sensor, Integer> {
-    Sensor findBySensorUid(String sensorUid);
 
     @Query(value = "SELECT s FROM Sensor s WHERE s.sensorUid IN :uids")
     List<Sensor> findBySensorUids(Collection<String> uids);

@@ -1,13 +1,12 @@
 package org.pilipchuk.diblom.entities;
 
-import lombok.NoArgsConstructor;
-
+import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.Instant;
 
+@Data
 @Entity
-@NoArgsConstructor
 public class Statistic {
 
     @Id

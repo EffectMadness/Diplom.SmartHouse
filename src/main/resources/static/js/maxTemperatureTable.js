@@ -1,11 +1,19 @@
 $(document).ready(function () {
     $('#MaxTemperatureTableContainer').jtable({
         title: 'Максимальна Температура',
+        action: {
+            listAction: '/statistic'
+        },
         fields: {
             sensorId: {
-                title: 'Сенсор',
                 key: true,
                 list: false
+            },
+            sensorName: {
+                title: 'Сенсор',
+                width: '30%',
+                create: false,
+                edit: false
             },
             temperature: {
                 title: 'Температура',

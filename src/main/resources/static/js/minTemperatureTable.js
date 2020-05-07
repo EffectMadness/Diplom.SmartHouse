@@ -1,11 +1,20 @@
 $(document).ready(function () {
     $('#MinTemperatureTableContainer').jtable({
         title: 'Мінімальна Температура',
+        action: {
+            listAction: '/statistic'
+        },
+
         fields: {
             sensorId: {
-                title: 'Сенсор',
                 key: true,
                 list: false
+            },
+            sensorName: {
+                title: 'Сенсор',
+                width: '30%',
+                create: false,
+                edit: false
             },
             temperature: {
                 title: 'Температура',

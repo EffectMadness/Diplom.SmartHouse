@@ -13,28 +13,28 @@
     <link rel="stylesheet" type="text/css" href="libs/jquery-ui/bootstrap-grid.min.css">
     <link rel="stylesheet" type="text/css" href="libs/jquery-ui/bootstrap-reboot.min.css">
     <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link rel="stylesheet" href=libs/jquery-ui/jquery-ui.min.css type="text/css"/>
+    <link rel="stylesheet" href=libs/jquery-ui/jquery-ui.theme.min.css type="text/css"/>
+    <link rel="stylesheet" href=libs/jquery-ui/jquery-ui.structure.min.css type="text/css"/>
+    <link rel="stylesheet" href="libs/jtable/themes/metro/blue/jtable.min.css" type="text/css"/>
+    <link rel="stylesheet" href="theme/main.css" type="text/css"/>
 
 
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
     <script src="libs/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script src="libs/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
     <script src="libs/jtable/jquery.jtable.min.js" type="text/javascript"></script>
     <script src="js/sensorTable.js" type="text/javascript"></script>
     <script src="js/timeZoneTable.js" type="text/javascript"></script>
     <script src="js/specDayTable.js" type="text/javascript"></script>
     <script src="js/boilerSettings.js" type="text/javascript"></script>
-    <script src="../static/js/maxTemperatureTable.js" type="text/javascript"></script>
-    <script src="../static/js/minTemperatureTable.js" type="text/javascript"></script>
-    <script src="../static/js/averageTemperatureTable.js" type="text/javascript"></script>
-    <script src="../static/js/lastHourTemperatureTable.js" type="text/javascript"></script>
+    <script src="js/maxTemperatureTable.js" type="text/javascript"></script>
+    <script src="js/minTemperatureTable.js" type="text/javascript"></script>
+    <script src="js/averageTemperatureTable.js" type="text/javascript"></script>
+    <script src="js/lastHourTemperatureTable.js" type="text/javascript"></script>
 
-    <link rel="stylesheet" href=libs/jquery-ui/jquery-ui.min.css type="text/css"/>
-    <link rel="stylesheet" href=libs/jquery-ui/jquery-ui.theme.min.css type="text/css"/>
-    <link rel="stylesheet" href=libs/jquery-ui/jquery-ui.structure.min.css type="text/css"/>
-    <link rel="stylesheet" href="libs/jtable/themes/metro/blue/jtable.min.css" type="text/css"/>
-    <link rel="stylesheet" href="theme/main.css" type="text/css"/>
 </head>
 <body>
 <header>
@@ -54,16 +54,25 @@
     </nav>
 </header>
 
-<canvas id="myChart"></canvas>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
-<script src="js/graph.js"></script>
-
-<div>
-    <div id ="MaxTemperatureTableContainer"></div>
-    <div id ="MinTemperatureTableContainer"></div>
-    <div id ="AverageTemperatureTableContainer"></div>
-    <div id ="LastHourTemperatureTableContainer"></div>
-</div>
+<form action="chart" method="post">
+     Show the temperature logs for
+    <select name="timeinterval">
+        <option value="6">the last 6 hours</option>
+        <option value="12">the last 12 hours</option>
+        <option value="24">the last 24 hours</option>
+    </select>
+    <input type="submit" value="Display">
+</form>
+    <div>
+        <canvas id="myChart"></canvas>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+        <script src="js/graph.js"></script>
+    </div>
+    <div>
+        <div id ="MaxTemperatureTableContainer"></div>
+        <div id ="MinTemperatureTableContainer"></div>
+        <div id ="AverageTemperatureTableContainer"></div>
+        <div id ="LastHourTemperatureTableContainer"></div>
+    </div>
 </body>
 </html>
