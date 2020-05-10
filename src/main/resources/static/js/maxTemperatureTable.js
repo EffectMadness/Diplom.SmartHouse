@@ -1,8 +1,15 @@
-$(document).ready(function () {
+$(document).ready(function()  {
+    let e = document.getElementById("timeinterval");
+    let hours = e.options[e.selectedIndex].value;
+    showMaxTemp(hours);
+});
+
+function showMaxTemp(hours) {
+    console.log("showMaxTemp hours: " + hours);
     $('#MaxTemperatureTableContainer').jtable({
-        title: 'Максимальна Температура',
-        action: {
-            listAction: '/statistic'
+        title: 'Максимальна Температура:',
+        actions: {
+            listAction: '/statistic/max?hours=' + hours
         },
         fields: {
             sensorId: {
@@ -11,13 +18,13 @@ $(document).ready(function () {
             },
             sensorName: {
                 title: 'Сенсор',
-                width: '30%',
+                width: '10%',
                 create: false,
                 edit: false
             },
             temperature: {
                 title: 'Температура',
-                width: '30%',
+                width: '10%',
                 create: false,
                 edit: false
             },
@@ -28,4 +35,4 @@ $(document).ready(function () {
             }
         }
     }).jtable('load');
-});
+}

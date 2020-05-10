@@ -1,24 +1,22 @@
 package org.pilipchuk.diblom.controller;
 
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.pilipchuk.diblom.dao.StatisticDao;
 
 import org.pilipchuk.diblom.dto.StatisticDTO;
 import org.pilipchuk.diblom.dto.jtable.jTableEntityList;
-import org.pilipchuk.diblom.entities.Statistic;
+import org.pilipchuk.diblom.entities.Temperature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import static org.pilipchuk.diblom.utils.JTableUtil.toResponse;
+import java.util.Objects;
 
 
 @RestController
-//@AllArgsConstructor
 @RequestMapping("/statistic")
 public class StatisticController {
 
@@ -28,37 +26,41 @@ public class StatisticController {
     @Autowired
     private ModelMapper mapper;
 
-
-    //@GetMapping("/minimal")
-
-    //@RequestMapping(value = "{hours}", method = RequestMethod.POST)
-    //@ResponseBody
-    @PostMapping
-    public jTableEntityList<StatisticDTO> all() /*max(@PathVariable Integer hours)*/ {
-        Integer hours = 24;
+    @PostMapping("/max")
+    public jTableEntityList<StatisticDTO> max(@RequestParam(required = false) Integer hours) {
+        if(hours == null) {
+            hours = 150;
+        }
+        hours = 150;
         Instant checkDateTime = Instant.now().plus(-1 * hours, ChronoUnit.HOURS);
-        List<Statistic> target = statisticDao.getMax(checkDateTime);
-        List<StatisticDTO> dtoList = mapper.map(target, new TypeToken<List<StatisticDTO>>() {}.getType());
+        Iterable<Temperature> target = statisticDao.getMax(checkDateTime);
+        List<StatisticDTO> dtoList = new ArrayList<>();
+        map(target, dtoList);
 
         return new jTableEntityList<>("OK", dtoList, dtoList.size());
     }
 
-    @GetMapping("/min{hours}")
-    public List<Statistic> getStatisticMin(@PathVariable Integer hours) {
+    @PostMapping("/min")
+    public jTableEntityList<StatisticDTO> min(@RequestParam(required = false) Integer hours) {
+        if(hours == null) {
+            hours = 24;
+        }
+        hours = 150;
         Instant checkDateTime = Instant.now().plus(-1 * hours, ChronoUnit.HOURS);
-        return statisticDao.getMin(checkDateTime);
+        Iterable<Temperature> target = statisticDao.getMin(checkDateTime);
+        List<StatisticDTO> dtoList = new ArrayList<>();
+        map(target, dtoList);
+
+        return new jTableEntityList<>("OK", dtoList, dtoList.size());
     }
 
-    @GetMapping("/max{hours}")
-    public List<Statistic> getStatisticMax(@PathVariable Integer hours) {
-        Instant checkDateTime = Instant.now().plus(-1 * hours, ChronoUnit.HOURS);
-        return statisticDao.getMax(checkDateTime);
-    }
-
-    @GetMapping("/avg{hours}")
-    public List<Statistic> getStatisticAvg(@PathVariable Integer hours) {
-        Instant checkDateTime = Instant.now().plus(-1 * hours, ChronoUnit.HOURS);
-        return statisticDao.getAvg(checkDateTime);
+    private void map(Iterable<Temperature> temperatures, List<StatisticDTO> statisticDTOs){
+        temperatures.forEach(temperature -> {
+            statisticDTOs.add(new StatisticDTO(temperature.getSensor().getSensorId(),
+                                               temperature.getDataTime(),
+                                               temperature.getSensor().getSensorName(),
+                                               temperature.getTemperature()));
+        });
     }
 
 }
