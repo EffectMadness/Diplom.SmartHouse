@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -49,9 +50,11 @@ public class ClimateService {
 
         List<Sensor> sensors = sensorDao.findBySensorUids(deviceData.keySet());
         sensors.forEach(sensor -> {
-            double actualTemp = deviceData.get(sensor.getSensorUid());
+            double actualTemp = deviceData.get(sensor.getSensorUid()) + sensor.getDelta();
+            System.out.println("Sensor " + sensor.getSensorUid() +" Temperature = " + actualTemp);
             if (actualTemp != sensor.getTemperatureValue()) {
                 sensor.setTemperatureValue(actualTemp);
+                System.out.println("Date = " + LocalDate.now() + "Save to database.");
                 temperatureDao.save(new Temperature(sensor, actualTemp));
             }
         });

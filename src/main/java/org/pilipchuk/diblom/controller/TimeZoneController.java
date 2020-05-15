@@ -22,7 +22,7 @@ public class TimeZoneController {
     public JTableOptionsList getAsOptions() {
         List<JTableOption> options = StreamSupport.stream(timeZoneDao.findAll().spliterator(), false)
                 .map(timeZone -> new JTableOption(
-                        String.format("%s (%d:%d - %d:%d)", timeZone.getName(), timeZone.getStartHour(), timeZone.getStartMin(),
+                        String.format("%s (%02d:%02d - %02d:%02d)", timeZone.getName(), timeZone.getStartHour(), timeZone.getStartMin(),
                                 timeZone.getEndHour(), timeZone.getEndMin()),
                         timeZone.getName()))
                 .collect(Collectors.toList());

@@ -55,20 +55,20 @@
                 <div class="property-value" name="status" th:text="${boiler.status}"/>
             </div>
             <div class="boiler-property">
-                <div class="property-name">Проміжок часу</div>
+                <div class="property-name">Проміжок часу, хв.</div>
                 <div class="property-value" name="deltaTime" th:text="${boiler.deltaTime}"/>
             </div>
             <div class="boiler-property">
-                <div class="property-name">Допустиме відхилення температури</div>
+                <div class="property-name">Допустиме відхилення температури, °C</div>
                 <div class="property-value" name="deltaTemp" th:text="${boiler.deltaTemp}"/>
             </div>
             <div class="boiler-property">
                 <div class="property-name">Нагрівач</div>
-                <div class="property-value" name="currentStatus" th:text="${boiler.currentStatus}"/>
+                <div class="property-value" name="currentStatus" th:text="${boiler.currentStatus}  ? 'ON' : 'OFF'"/>
             </div>
             <div class="boiler-property">
                 <div class="property-name">Час вкл/викл</div>
-                <div class="property-value" name="timeCurStatus" th:text="${boiler.timeCurStatus}"/>
+                <div class="property-value" name="timeCurStatus" th:text="${#dates.format(boiler.timeCurStatus, 'dd.MM.yyyy HH:mm')}"/>
             </div>
         </div>
         <button id="boiler-edit-btn" class="ui-button ui-widget ui-corner-all">Edit</button>

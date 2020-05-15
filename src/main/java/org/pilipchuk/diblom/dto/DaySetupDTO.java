@@ -19,7 +19,7 @@ public class DaySetupDTO {
         day = daySetup.getDay();
         TimeZone timeZone = daySetup.getTimeZone();
         timeZoneName = timeZone.getName();
-        period = String.format("%d:%d - %d:%d",
+        period = String.format("%02d:%02d - %02d:%02d",
                 timeZone.getStartHour(), timeZone.getStartMin(),
                 timeZone.getEndHour(), timeZone.getEndMin());
         temperature = timeZone.getTemperature();

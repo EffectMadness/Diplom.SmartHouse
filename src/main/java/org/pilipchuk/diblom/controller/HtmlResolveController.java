@@ -22,9 +22,6 @@ public class HtmlResolveController {
 
     @GetMapping("/chart")
     public String chart(Model model) {
-        //Boiler boiler = boilerService.findFirst();
-        //model.addAttribute("boiler", boiler);
-        //model.addAttribute("hours", 12);
         return "chart";
     }
 

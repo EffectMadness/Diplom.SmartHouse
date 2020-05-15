@@ -1,6 +1,6 @@
 package org.pilipchuk.diblom.controller;
 
-import org.modelmapper.ModelMapper;
+import org.pilipchuk.diblom.dao.SensorDao;
 import org.pilipchuk.diblom.dao.StatisticDao;
 
 import org.pilipchuk.diblom.dto.StatisticDTO;
@@ -9,11 +9,12 @@ import org.pilipchuk.diblom.entities.Temperature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 
 @RestController
@@ -24,19 +25,29 @@ public class StatisticController {
     private StatisticDao statisticDao;
 
     @Autowired
-    private ModelMapper mapper;
+    private SensorDao sensorDao;
 
     @PostMapping("/max")
     public jTableEntityList<StatisticDTO> max(@RequestParam(required = false) Integer hours) {
         if(hours == null) {
-            hours = 150;
+            hours = 24;
         }
-        hours = 150;
-        Instant checkDateTime = Instant.now().plus(-1 * hours, ChronoUnit.HOURS);
-        Iterable<Temperature> target = statisticDao.getMax(checkDateTime);
+        SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Instant checkDateTime = Instant.now().minus(hours, ChronoUnit.HOURS);
+        Iterable<Temperature> lastData = statisticDao.getLastData(checkDateTime);
         List<StatisticDTO> dtoList = new ArrayList<>();
-        map(target, dtoList);
-
+        sensorDao.findAll().forEach(sensor -> {
+            final Instant[] tmpDateTime = {checkDateTime};
+            final double[] tmpTemperature = {statisticDao.getLastSensorTemperature(sensor.getSensorId(), checkDateTime).iterator().next().getTemperature()};
+            lastData.forEach(temperature -> {
+                if (temperature.getSensor().getSensorId() == sensor.getSensorId()
+                     && tmpTemperature[0] < temperature.getTemperature()){
+                    tmpDateTime[0] = temperature.getDataTime();
+                    tmpTemperature[0] = temperature.getTemperature();
+                }
+            });
+            dtoList.add(new StatisticDTO(sensor.getSensorId(), dateTimeFormatter.format(Date.from(tmpDateTime[0])), sensor.getSensorName(), tmpTemperature[0]));
+        });
         return new jTableEntityList<>("OK", dtoList, dtoList.size());
     }
 
@@ -45,22 +56,25 @@ public class StatisticController {
         if(hours == null) {
             hours = 24;
         }
-        hours = 150;
+        SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Instant checkDateTime = Instant.now().plus(-1 * hours, ChronoUnit.HOURS);
-        Iterable<Temperature> target = statisticDao.getMin(checkDateTime);
+        Iterable<Temperature> lastData = statisticDao.getLastData(checkDateTime);
         List<StatisticDTO> dtoList = new ArrayList<>();
-        map(target, dtoList);
+
+        sensorDao.findAll().forEach(sensor -> {
+            final Instant[] tmpDateTime = {checkDateTime};
+            final double[] tmpTemperature = {statisticDao.getLastSensorTemperature(sensor.getSensorId(), checkDateTime).iterator().next().getTemperature()};
+            lastData.forEach(temperature -> {
+                if (temperature.getSensor().getSensorId() == sensor.getSensorId()
+                        && tmpTemperature[0] > temperature.getTemperature()){
+                    tmpDateTime[0] = temperature.getDataTime();
+                    tmpTemperature[0] = temperature.getTemperature();
+                }
+            });
+            dtoList.add(new StatisticDTO(sensor.getSensorId(), dateTimeFormatter.format(Date.from(tmpDateTime[0])), sensor.getSensorName(), tmpTemperature[0]));
+        });
 
         return new jTableEntityList<>("OK", dtoList, dtoList.size());
-    }
-
-    private void map(Iterable<Temperature> temperatures, List<StatisticDTO> statisticDTOs){
-        temperatures.forEach(temperature -> {
-            statisticDTOs.add(new StatisticDTO(temperature.getSensor().getSensorId(),
-                                               temperature.getDataTime(),
-                                               temperature.getSensor().getSensorName(),
-                                               temperature.getTemperature()));
-        });
     }
 
 }

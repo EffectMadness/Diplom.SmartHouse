@@ -25,8 +25,8 @@ public class SpecDayDTO {
     public SpecDayDTO(SpecDaySetup specDaySetup)
     {
         id = specDaySetup.getId();
-        dateFrom = String.format("%d.%d.%d", specDaySetup.getDayFrom(), specDaySetup.getMonthFrom(), specDaySetup.getYearFrom());
-        dateTo = String.format("%d.%d.%d", specDaySetup.getDayTo(), specDaySetup.getMonthTo(), specDaySetup.getYearTo());
+        dateFrom = String.format("%02d.%02d.%d", specDaySetup.getDayFrom(), specDaySetup.getMonthFrom(), specDaySetup.getYearFrom());
+        dateTo = String.format("%02d.%02d.%d", specDaySetup.getDayTo(), specDaySetup.getMonthTo(), specDaySetup.getYearTo());
         timeZoneName = specDaySetup.getTimeZone().getName();
         temperature = specDaySetup.getTimeZone().getTemperature();
     }

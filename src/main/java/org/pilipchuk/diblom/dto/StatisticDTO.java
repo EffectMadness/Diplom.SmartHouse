@@ -11,7 +11,7 @@ import java.time.Instant;
 @NoArgsConstructor
 public class StatisticDTO {
     private Integer sensorId;
-    private Instant dataTime;
+    private String dataTime;
     private String sensorName;
     private Double temperature;
 

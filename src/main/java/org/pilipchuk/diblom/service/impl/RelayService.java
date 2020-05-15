@@ -1,5 +1,6 @@
 package org.pilipchuk.diblom.service.impl;
 
+import com.pi4j.io.gpio.*;
 import lombok.extern.slf4j.Slf4j;
 import org.pilipchuk.diblom.dao.BoilerDao;
 import org.pilipchuk.diblom.dao.DaySetupDao;
@@ -56,16 +57,23 @@ public class RelayService {
     public void relayOn() {
         Boiler boiler = StreamSupport.stream(boilerDao.findAll().spliterator(), false)
                 .findFirst().orElse(null);
-        if (boiler.getStatus() != 1) {
-            /*GpioPinDigitalOutput Relay = gpioController.provisionDigitalOutputPin(
-                    RaspiPin.GPIO_27,
-                    "Relay",
-                    PinState.HIGH);*/
-            boiler.setCurrentStatus(1);
-            boiler.setTimeCurStatus(Instant.now());
-            boilerDao.save(boiler);
-            workLogDao.save(new WorkLog(OperationType.ON));
-            System.out.println("Relay ON+++++");
+        if (boiler.getCurrentStatus() != 1) {
+            // create gpio controller
+            try {
+                final GpioController gpioController = GpioFactory.getInstance();
+                GpioPinDigitalOutput Relay = gpioController.provisionDigitalOutputPin(
+                        RaspiPin.GPIO_27,
+                        "Relay",
+                        PinState.HIGH);
+                boiler.setCurrentStatus(1);
+                boiler.setTimeCurStatus(Instant.now());
+                boilerDao.save(boiler);
+                workLogDao.save(new WorkLog(OperationType.ON));
+                System.out.println("Relay ON+++++");
+                gpioController.shutdown();
+            } catch (UnsatisfiedLinkError e){
+                System.out.println("Is is not a Rasberry PI");
+            }
         }
     }
 
@@ -74,15 +82,21 @@ public class RelayService {
         Boiler boiler = StreamSupport.stream(boilerDao.findAll().spliterator(), false)
                 .findFirst().orElse(null);
         if (boiler.getCurrentStatus() != 0) {
-            /*GpioPinDigitalOutput Relay = gpioController.provisionDigitalOutputPin(
-                    RaspiPin.GPIO_27,
-                    "Relay",
-                    PinState.LOW);*/
-            boiler.setCurrentStatus(0);
-            boiler.setTimeCurStatus(Instant.now());
-            boilerDao.save(boiler);
-            workLogDao.save(new WorkLog(OperationType.OFF));
-            System.out.println("Relay OFF-----");
+            try {
+                final GpioController gpioController = GpioFactory.getInstance();
+                GpioPinDigitalOutput Relay = gpioController.provisionDigitalOutputPin(
+                        RaspiPin.GPIO_27,
+                        "Relay",
+                        PinState.LOW);
+                boiler.setCurrentStatus(0);
+                boiler.setTimeCurStatus(Instant.now());
+                boilerDao.save(boiler);
+                workLogDao.save(new WorkLog(OperationType.OFF));
+                System.out.println("Relay OFF-----");
+                gpioController.shutdown();
+            } catch (UnsatisfiedLinkError e){
+                System.out.println("Is is not a Rasberry PI");
+            }
         }
     }
 

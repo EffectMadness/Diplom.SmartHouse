@@ -6,4 +6,5 @@ function updateData(){
     $('#MinTemperatureTableContainer').jtable('destroy');
     showMaxTemp(hours);
     showMinTemp(hours);
+    showChart(hours);
 }

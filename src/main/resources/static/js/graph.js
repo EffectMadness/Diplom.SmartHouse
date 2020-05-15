@@ -1,27 +1,64 @@
-let ctx = document.getElementById('myChart').getContext('2d');
-let chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'line',
-
-    // The data for our dataset
-    data: {
-        labels: ['10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00'],
-        datasets: [{
-            label: 'Sensor1',
-            backgroundColor: 'rgb(0, 0, 100)',
-            borderColor: 'rgb(0, 0, 0)',
-            fill: false,
-            data: [16.5, 18, 12, 20, 24, 15, 18, 10],
-        },{
-            label: 'Sensor2',
-            backgroundColor: 'rgb(100, 300, 100)',
-            borderColor: 'rgb(0, 0, 0)',
-            fill: false,
-            data: [11, 20, 30, 14, 18, 19, 7, 20],
-            }
-        ]
-    },
-
-    // Configuration options go here
-    options: {}
+$(document).ready(function()  {
+    let e = document.getElementById("timeinterval");
+    let hours = e.options[e.selectedIndex].value;
+    showChart(hours);
 });
+
+let chart;
+let ctx = document.getElementById('myChart').getContext('2d');
+
+function showChart(hours) {
+    let url = '/graph/graphData?hours=' + hours;
+
+    $.ajax({
+        type: 'GET',
+        dataType: 'text',
+        url: url,
+        success: function (response) {
+            renderChart(JSON.parse(response))
+        },
+        error: function (error) {
+            console.log(JSON.parse(error.responseText).message);
+        }
+    });
+}
+
+function renderChart(response) {
+    if (chart != null) {
+        chart.destroy();
+    }
+
+    chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: response.labels,
+            datasets: response.data,
+        },
+        options: {
+            // scales: {
+            //     xAxes: [{
+            //         time: {
+            //             unit: 'date'
+            //         },
+            //         gridLines: {
+            //             display: false
+            //         },
+            //         ticks: {
+            //             maxTicksLimit: 20
+            //         }
+            //     }],
+            //     yAxes: [{
+            //         ticks: {
+            //             maxTicksLimit: 10
+            //         },
+            //         gridLines: {
+            //             color: "rgba(0, 0, 0, .125)",
+            //         }
+            //     }],
+            // },
+            // legend: {
+            //     display: false
+            // }
+        }
+    });
+}
