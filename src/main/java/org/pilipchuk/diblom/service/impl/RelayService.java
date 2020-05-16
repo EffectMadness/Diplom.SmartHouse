@@ -72,7 +72,7 @@ public class RelayService {
                 System.out.println("Relay ON+++++");
                 gpioController.shutdown();
             } catch (UnsatisfiedLinkError e){
-                System.out.println("Is is not a Rasberry PI");
+                System.out.println("It is not a Rasberry PI");
             }
         }
     }
@@ -95,7 +95,7 @@ public class RelayService {
                 System.out.println("Relay OFF-----");
                 gpioController.shutdown();
             } catch (UnsatisfiedLinkError e){
-                System.out.println("Is is not a Rasberry PI");
+                System.out.println("It is not a Rasberry PI");
             }
         }
     }
